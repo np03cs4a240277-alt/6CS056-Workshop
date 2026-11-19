@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Course</title>
+</head>
+<body>
+    <h1>Create Course</h1>
+
+    @if ($errors->any())
+        <div>
+            <h3>Please fix the following errors:</h3>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="/courses" method="POST">
+        @csrf
+
+        <div>
+            <label for="name">Course Name</label>
+            <input id="name" name="name" value="{{ old('name') }}">
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description">{{ old('description') }}</textarea>
+        </div>
+
+        <div>
+            <label for="duration">Duration (weeks)</label>
+            <input id="duration" name="duration" type="number" min="1" value="{{ old('duration') }}">
+        </div>
+
+        <div>
+            <label for="fee">Fee</label>
+            <input id="fee" name="fee" type="number" min="0" step="0.01" value="{{ old('fee') }}">
+        </div>
+
+        <div>
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty" name="difficulty">
+                <option value="">Choose difficulty</option>
+                <option value="Easy" {{ old('difficulty') == 'Easy' ? 'selected' : '' }}>Easy</option>
+                <option value="Medium" {{ old('difficulty') == 'Medium' ? 'selected' : '' }}>Medium</option>
+                <option value="Hard" {{ old('difficulty') == 'Hard' ? 'selected' : '' }}>Hard</option>
+            </select>
+        </div>
+
+        <input type="hidden" name="is_active" value="0">
+        <label>
+            <input
+                type="checkbox"
+                name="is_active"
+                value="1"
+                {{ old('is_active', '1') == '1' ? 'checked' : '' }}
+            >
+            Active
+        </label>
+
+        <button type="submit">Create Course</button>
+    </form>
+
+    <a href="/courses">Back to Courses</a>
+</body>
+</html>
